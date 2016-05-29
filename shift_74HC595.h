@@ -13,6 +13,8 @@ class Shift74HC595 {
         
         Shift74HC595();
         
+        void begin(int clk_pin, int data_pin, int latch_pin);
+        
         void begin(int clk_pin, int data_pin, int latch_pin, int num_pins);
         
         void setPinValue(int pin, int state);
@@ -30,7 +32,7 @@ class Shift74HC595 {
         
         uint8_t out_value[MAX_PINS];
     
-}
+};
 
 
 #endif
