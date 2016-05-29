@@ -5,8 +5,8 @@
 #ifndef  shift_74HC595_h
 #define shift_74HC595_h
 
-#define MAX_PINS 256 // Define the maximum number of output pins for the shift register
-#define PULSE_DELAY 5000
+#define MAX_PINS 128 // Define the maximum number of output pins for the shift register
+#define PULSE_DELAY 8 // Pulse lick delay length (microseconds)
 
 class Shift74HC595 {
     
@@ -14,13 +14,15 @@ class Shift74HC595 {
         
         Shift74HC595();
         
-        void begin(int clk_pin, int data_pin, int latch_pin);
+        void begin(int clk_pin, int data_pin, int latch_pin); // Set PinModes with the default 8 pins
         
-        void begin(int clk_pin, int data_pin, int latch_pin, int num_pins);
+        void begin(int clk_pin, int data_pin, int latch_pin, int num_pins); // Set pinModes with a specified # of pins
         
-        void setPinValue(int pin, int state);
+        void setPinValue(int pin, int state); // Write to array in preperation to shiftOut()
         
-        void shiftOut();
+        void shiftOut(); // Output pulses
+        
+        void fastWrite(uint8_t pin, uint8_t val); // Stripped down digital write
     
     private:
         
@@ -31,7 +33,7 @@ class Shift74HC595 {
         
         int num_pins;
         
-        uint8_t out_value[MAX_PINS];
+        uint8_t out_value[MAX_PINS]; // Array for storing parallel pin values
     
 };
 

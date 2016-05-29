@@ -25,11 +25,11 @@ void Shift74HC595::begin(int clk_pin, int data_pin, int latch_pin) {
     
     pinMode(this->latch_pin, OUTPUT);
     
-    digitalWrite(this->clk_pin, LOW);
+    fastWrite(this->clk_pin, LOW);
     
-    digitalWrite(this->data_pin, LOW);
+    fastWrite(this->data_pin, LOW);
     
-    digitalWrite(this->latch_pin, LOW);
+    fastWrite(this->latch_pin, LOW);
     
 };
 
@@ -49,17 +49,17 @@ void Shift74HC595::begin(int clk_pin, int data_pin, int latch_pin, int num_pins)
     
     pinMode(this->latch_pin, OUTPUT);
     
-    digitalWrite(this->clk_pin, LOW);
+    fastWrite(this->clk_pin, LOW);
     
-    digitalWrite(this->data_pin, LOW);
+    fastWrite(this->data_pin, LOW);
     
-    digitalWrite(this->latch_pin, LOW);
+    fastWrite(this->latch_pin, LOW);
     
 };
 
 void Shift74HC595::setPinValue(int pin, int state) {
     
-    this->out_value[pin] = state;
+    this->out_value[map(pin, 0, this->num_pins-1, this->num_pins-1, 0)] = state;
 };
 
 void Shift74HC595::shiftOut() {
@@ -67,43 +67,51 @@ void Shift74HC595::shiftOut() {
     
     for (int i = 0; i < this->num_pins; i++) {
         
-        digitalWrite(this->clk_pin, HIGH);
+        fastWrite(this->clk_pin, HIGH);
         
         delayMicroseconds(PULSE_DELAY);
         
-        digitalWrite(this->clk_pin, LOW);
+        fastWrite(this->clk_pin, LOW);
         
-        digitalWrite(this->data_pin, this->out_value[i]);
-        
-        delayMicroseconds(PULSE_DELAY);
-        
-        digitalWrite(this->clk_pin, HIGH);
+        fastWrite(this->data_pin, this->out_value[i]);
         
         delayMicroseconds(PULSE_DELAY);
         
-        digitalWrite(this->clk_pin, LOW);
-        
-        digitalWrite(this->data_pin, LOW);
-        
-        Serial.print(this->out_value[i]);
+        // Serial.print(this->out_value[i]);
         
     }
+        
+    fastWrite(this->clk_pin, LOW);
+        
+    fastWrite(this->data_pin, LOW);
     
-    Serial.println("");
+    // Serial.println("");
     
-    digitalWrite(this->latch_pin, HIGH);
-    
-    delayMicroseconds(PULSE_DELAY);
-    
-    digitalWrite(this->clk_pin, HIGH);
-    
-    digitalWrite(this->latch_pin, LOW);
+    fastWrite(this->latch_pin, HIGH);
     
     delayMicroseconds(PULSE_DELAY);
     
-    digitalWrite(this->clk_pin, LOW);
+    fastWrite(this->clk_pin, HIGH);
+    
+    fastWrite(this->latch_pin, LOW);
+    
+    delayMicroseconds(PULSE_DELAY);
+    
+    fastWrite(this->clk_pin, LOW);
     
     delayMicroseconds(PULSE_DELAY);
     
 };
 
+void Shift74HC595::fastWrite(uint8_t pin, uint8_t val) {
+    
+	uint8_t bit = digitalPinToBitMask(pin);
+    volatile uint8_t *out = portOutputRegister(digitalPinToPort(pin));
+    if (val == LOW) {
+		*out &= ~bit;
+	}
+    else {
+		*out |= bit;
+	}
+    
+};
