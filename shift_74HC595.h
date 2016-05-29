@@ -6,6 +6,7 @@
 #define shift_74HC595_h
 
 #define MAX_PINS 256 // Define the maximum number of output pins for the shift register
+#define PULSE_DELAY 5000
 
 class Shift74HC595 {
     

@@ -25,6 +25,12 @@ void Shift74HC595::begin(int clk_pin, int data_pin, int latch_pin) {
     
     pinMode(this->latch_pin, OUTPUT);
     
+    digitalWrite(this->clk_pin, LOW);
+    
+    digitalWrite(this->data_pin, LOW);
+    
+    digitalWrite(this->latch_pin, LOW);
+    
 };
 
 void Shift74HC595::begin(int clk_pin, int data_pin, int latch_pin, int num_pins) {
@@ -43,37 +49,61 @@ void Shift74HC595::begin(int clk_pin, int data_pin, int latch_pin, int num_pins)
     
     pinMode(this->latch_pin, OUTPUT);
     
+    digitalWrite(this->clk_pin, LOW);
+    
+    digitalWrite(this->data_pin, LOW);
+    
+    digitalWrite(this->latch_pin, LOW);
+    
 };
 
 void Shift74HC595::setPinValue(int pin, int state) {
     
     this->out_value[pin] = state;
-    
 };
 
 void Shift74HC595::shiftOut() {
     
+    
     for (int i = 0; i < this->num_pins; i++) {
-        
-        digitalWrite(this->data_pin, this->out_value[i]);
         
         digitalWrite(this->clk_pin, HIGH);
         
-        delayMicroseconds(8);
+        delayMicroseconds(PULSE_DELAY);
+        
+        digitalWrite(this->clk_pin, LOW);
+        
+        digitalWrite(this->data_pin, this->out_value[i]);
+        
+        delayMicroseconds(PULSE_DELAY);
+        
+        digitalWrite(this->clk_pin, HIGH);
+        
+        delayMicroseconds(PULSE_DELAY);
         
         digitalWrite(this->clk_pin, LOW);
         
         digitalWrite(this->data_pin, LOW);
         
-        delayMicroseconds(8);
+        Serial.print(this->out_value[i]);
         
     }
     
+    Serial.println("");
+    
     digitalWrite(this->latch_pin, HIGH);
     
-    delayMicroseconds(8);
+    delayMicroseconds(PULSE_DELAY);
+    
+    digitalWrite(this->clk_pin, HIGH);
     
     digitalWrite(this->latch_pin, LOW);
+    
+    delayMicroseconds(PULSE_DELAY);
+    
+    digitalWrite(this->clk_pin, LOW);
+    
+    delayMicroseconds(PULSE_DELAY);
     
 };
 
