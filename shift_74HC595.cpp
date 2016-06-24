@@ -9,7 +9,7 @@ Shift74HC595::Shift74HC595() {
     
 };
 
-void Shift74HC595::begin(int clk_pin, int data_pin, int latch_pin) {
+void Shift74HC595::begin(uint8_t clk_pin, uint8_t data_pin, uint8_t latch_pin) {
     
     this->clk_pin = clk_pin;
     
@@ -33,7 +33,7 @@ void Shift74HC595::begin(int clk_pin, int data_pin, int latch_pin) {
     
 };
 
-void Shift74HC595::begin(int clk_pin, int data_pin, int latch_pin, int num_pins) {
+void Shift74HC595::begin(uint8_t clk_pin, uint8_t data_pin, uint8_t latch_pin, uint16_t num_pins) {
     
     this->clk_pin = clk_pin;
     
@@ -57,7 +57,7 @@ void Shift74HC595::begin(int clk_pin, int data_pin, int latch_pin, int num_pins)
     
 };
 
-void Shift74HC595::setPinValue(int pin, int state) {
+void Shift74HC595::setPinValue(uint8_t pin, uint8_t state) {
     
     this->out_value[map(pin, 0, this->num_pins-1, this->num_pins-1, 0)] = state;
 };

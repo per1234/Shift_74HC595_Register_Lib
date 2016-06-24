@@ -14,11 +14,11 @@ class Shift74HC595 {
         
         Shift74HC595();
         
-        void begin(int clk_pin, int data_pin, int latch_pin); // Set PinModes with the default 8 pins
+        void begin(uint8_t clk_pin, uint8_t data_pin, uint8_t latch_pin); // Set PinModes with the default 8 pins
         
-        void begin(int clk_pin, int data_pin, int latch_pin, int num_pins); // Set pinModes with a specified # of pins
+        void begin(uint8_t clk_pin, uint8_t data_pin, uint8_t latch_pin, uint16_t num_pins); // Set pinModes with a specified # of pins
         
-        void setPinValue(int pin, int state); // Write to array in preperation to shiftOut()
+        void setPinValue(uint8_t pin, uint8_t state); // Write to array in preperation to shiftOut()
         
         void shiftOut(); // Output pulses
         
@@ -27,11 +27,11 @@ class Shift74HC595 {
     private:
         
         // Define pins for object
-        int clk_pin;
-        int data_pin;
-        int latch_pin;
+        uint8_t clk_pin;
+        uint8_t data_pin;
+        uint8_t latch_pin;
         
-        int num_pins;
+        uint16_t num_pins;
         
         uint8_t out_value[MAX_PINS]; // Array for storing parallel pin values
     
