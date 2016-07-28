@@ -1,7 +1,14 @@
 /*
  *  Library for a 74HC595 Shift Register
  */
- 
+#ifndef fastSetD
+# define fastSetD(PIN)      (PORTD | (1UL << PIN))
+#endif
+
+#ifndef fastClearD
+# define fastClearD(PIN)        (PORTD & (~(1UL << PIN)))
+#endif
+
 #ifndef  shift_74HC595_h
 #define shift_74HC595_h
 
